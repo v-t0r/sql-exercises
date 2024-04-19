@@ -1,2 +1,2 @@
 # sql-exercises
-Exercises related to SQL.
+This repository contains all the exercises done in the Data Base System discipline at the Federal University of Uberlândia.
