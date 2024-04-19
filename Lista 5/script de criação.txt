@@ -1,0 +1,155 @@
+DROP SCHEMA see CASCADE;
+
+CREATE SCHEMA see;
+
+SET search_path TO see;
+
+CREATE TABLE categoria (
+	idcat char(5) not null,
+	nomecat varchar(15) not null,
+	tipocat char CHECK (tipocat IN ('I', 'C')),
+	generocat char CHECK (generocat IN ('M', 'F')),
+	primary key (idcat)
+);
+
+CREATE TABLE empresa (
+	idemp char (5) not null,
+	cnpj char (14) not null,
+	nomeemp varchar (15),
+	enderecoemp varchar (30),
+	primary key (idemp), unique (cnpj)
+);
+
+CREATE TABLE local(
+	idloc char (5) not null,
+	enderecoloc varchar (30) not null,
+	capacidadeloc int,
+	primary key (idloc)
+);
+
+CREATE TABLE competicao (
+	idcom char (5) not null,
+	fasecom char CHECK (fasecom IN ('1', '2', '3', '4', '5', '6', '7', '8', '9', 'F')),
+	datacom date,
+	horacom char (5) not null,
+	idcat char (5),
+	idloc char (5),
+	capacidadecom int CHECK (capacidadecom >= 0 AND capacidadecom <= 100),
+	primary key (idcom),
+	foreign key (idcat) references categoria(idcat),
+	foreign key (idloc) references local(idloc)
+);
+
+CREATE TABLE pessoa (
+	idpes char (5) not null,
+	cpf char (11) not null,
+	nomepes varchar (15) not null,
+	datanas date not null,
+	primary key (idpes), unique (cpf)
+);
+
+CREATE TABLE competidor (
+	idcompetidor char (5),
+	primary key (idcompetidor)
+);
+
+CREATE TABLE equipe (
+	idequ char (5) not null,
+	nomeequ varchar (15) not null,
+	idcompetidor char (5) not null,
+	primary key (idequ),
+	foreign key (idcompetidor) references competidor(idcompetidor)
+);
+
+CREATE TABLE pateve (
+	idemp char (5) not null,
+	valorpat float not null,
+	primary key (idemp),
+	foreign key (idemp) references empresa(idemp)
+);
+
+CREATE TABLE patcom (
+	idemp char (5) not null,
+	primary key (idemp),
+	foreign key (idemp) references empresa(idemp)
+);
+
+CREATE TABLE atleta (
+	idpes char (5) not null,
+	idcompetidor char(5) not null,
+	primary key (idpes),
+	foreign key (idpes) references pessoa(idpes),
+	foreign key (idcompetidor) references competidor(idcompetidor)
+);
+
+CREATE TABLE funcionario (
+	idpes char (5) not null,
+	primary key (idpes),
+	foreign key (idpes) references pessoa(idpes)
+);
+
+CREATE TABLE arbitro (
+	idpes char (5) not null,
+	idcoo char (5),
+ 	primary key (idpes),
+	foreign key (idpes) references pessoa(idpes),
+	foreign key (idcoo) references arbitro(idpes)
+);
+
+CREATE TABLE locfun (
+	idloc char (5) not null,
+	idpes char(5) not null,
+	primary key (idloc, idpes),
+	foreign key (idloc) references local(idloc),
+	foreign key (idpes) references pessoa(idpes)
+);
+
+CREATE TABLE inscricao (
+	idcat char (5) not null,
+	idcompetidor char (5) not null,
+	primary key (idcat, idcompetidor),
+	foreign key (idcat) references categoria(idcat),
+	foreign key (idcompetidor) references competidor(idcompetidor)
+);
+
+CREATE TABLE patrocinio (
+	idemp char (5) not null,
+	idcompetidor char (5) not null,
+	primary key (idemp, idcompetidor),
+	foreign key (idemp) references empresa(idemp),
+	foreign key (idcompetidor) references competidor(idcompetidor)
+);
+
+CREATE TABLE catloc (
+	idcat char (5) not null,
+	idloc char (5) not null,
+	primary key (idcat, idloc),
+	foreign key (idcat) references categoria(idcat),
+	foreign key (idloc) references local(idloc)
+);
+
+CREATE TABLE participacao (
+	idcom char (5) not null,
+	idcompetidor char (5) not null,
+	escore int,
+	unidade varchar (15),
+	primary key (idcom, idcompetidor),
+	foreign key (idcom) references competicao(idcom),
+	foreign key (idcompetidor) references competidor(idcompetidor)
+);
+
+CREATE TABLE catarb (
+	idcat char (5) not null,
+	idpes char (5) not null,
+	primary key (idcat, idpes),
+	foreign key (idcat) references categoria(idcat),
+	foreign key (idpes) references pessoa(idpes)
+);
+
+CREATE TABLE atlequi (
+	idpes char(5) not null,
+	idequ char(5) not null,
+	primary key (idpes, idequ),
+	foreign key (idpes) references pessoa(idpes),
+	foreign key (idequ) references equipe(idequ)
+);

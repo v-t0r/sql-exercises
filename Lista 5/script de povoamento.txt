@@ -1,0 +1,150 @@
+BEGIN TRANSACTION;
+SET CONSTRAINTS ALL DEFERRED;
+SET SEARCH_PATH TO see;
+
+-- categoria (idcat, nomecat, tipocat, generocat)
+INSERT INTO categoria VALUES ('C0001', 'Futebol', 'C', 'M');
+INSERT INTO categoria VALUES ('C0002', 'Futebol', 'C', 'F');
+INSERT INTO categoria VALUES ('C0003', 'Corrida', 'I', 'M');
+INSERT INTO categoria VALUES ('C0004', 'Corrida', 'I', 'F'); 
+INSERT INTO categoria VALUES ('C0005', 'Volei', 'C', 'M');
+INSERT INTO categoria VALUES ('C0006', 'Volei', 'C', 'F');
+
+-- empresa (idemp, cnpj, nomeemp, enderecoemp)
+INSERT INTO empresa VALUES ('E0001', '54624278000169', 'Empresa01', 'Rua Curitiba, 20');
+INSERT INTO empresa VALUES ('E0002', '37644070000192', 'Empresa02', 'Rua Belem, 60');
+INSERT INTO empresa VALUES ('E0003', '66927408000111', 'Empresa03', 'Rua Parana, 370');
+INSERT INTO empresa VALUES ('E0004', '07314406000198', 'Empresa04', 'Rua Bahia, 93');
+
+-- local (idloc, enderecoloc, capacidadeloc)
+INSERT INTO local VALUES ('L0001', 'Av. Brasil, 120', 100);
+INSERT INTO local VALUES ('L0002', 'Av. Mato Grosso, 250', 300);
+INSERT INTO local VALUES ('L0003', 'Av. Joao Pinheiro, 40', 200);
+
+-- competicao (idcom, fasecom, datacom, horacom, idcat, idloc, capacidadecom)
+INSERT INTO competicao VALUES ('CC001', '1', DATE '2022-01-02', '15:00', 'C0001', 'L0002', 35);
+INSERT INTO competicao VALUES ('CC002', '2', DATE '2022-01-03', '15:00', 'C0001', 'L0002', 35);
+INSERT INTO competicao VALUES ('CC003', '1', DATE '2022-01-02', '18:00', 'C0002', 'L0002', 35);
+INSERT INTO competicao VALUES ('CC004', '2', DATE '2022-01-03', '18:00', 'C0002', 'L0002', 35);
+INSERT INTO competicao VALUES ('CC005', '1', DATE '2022-01-02', '15:00', 'C0003', 'L0001', 100);
+INSERT INTO competicao VALUES ('CC006', '2', DATE '2022-01-03', '18:00', 'C0003', 'L0001', 100);
+INSERT INTO competicao VALUES ('CC007', '1', DATE '2022-01-04', '15:00', 'C0004', 'L0001', 100);
+INSERT INTO competicao VALUES ('CC008', '2', DATE '2022-01-05', '18:00', 'C0004', 'L0001', 100);
+INSERT INTO competicao VALUES ('CC009', '1', DATE '2022-01-04', '15:00', 'C0005', 'L0003', 50);
+INSERT INTO competicao VALUES ('CC010', '2', DATE '2022-01-05', '18:00', 'C0005', 'L0003', 50);
+INSERT INTO competicao VALUES ('CC011', '1', DATE '2022-01-06', '15:00', 'C0006', 'L0003', 50);
+INSERT INTO competicao VALUES ('CC012', '2', DATE '2022-01-07', '18:00', 'C0006', 'L0003', 50);
+
+-- pessoa (idpes, cpf, nomepes, datanas)
+INSERT INTO pessoa VALUES ('P0001', '97306215000', 'Pedro Silva', DATE '2000-01-30');
+INSERT INTO pessoa VALUES ('P0002', '78773335878', 'Victor Alves', DATE '1991-03-21');
+INSERT INTO pessoa VALUES ('P0003', '34108178165', 'Mariana Borges', DATE '2001-05-22');
+INSERT INTO pessoa VALUES ('P0004', '50896855503', 'Alex Ferreira', DATE '1987-09-12');
+INSERT INTO pessoa VALUES ('P0005', '63438663619', 'Julia Almeida', DATE '1992-03-02');
+INSERT INTO pessoa VALUES ('P0006', '09237693400', 'Roberto Castro', DATE '2000-12-25');
+INSERT INTO pessoa VALUES ('P0007', '83848587726', 'Gustavo Gomes', DATE '1995-11-11');
+INSERT INTO pessoa VALUES ('P0008', '23432432343', 'Pessoa Oito', DATE '2000-01-31');
+INSERT INTO pessoa VALUES ('P0009', '34543345656', 'Pessoa Nove', DATE '1988-06-20');
+INSERT INTO pessoa VALUES ('P0010', '23432245345', 'Pessoa Dez', DATE '2001-06-22');
+INSERT INTO pessoa VALUES ('P0011', '89897676876', 'Pessoa Onze', DATE '2003-04-10');
+INSERT INTO pessoa VALUES ('P0012', '47532524523', 'Pessoa Doze', DATE '1998-01-20');
+INSERT INTO pessoa VALUES ('P0013', '56422346445', 'Pessoa Treze', DATE '1999-06-10');
+
+-- competidor (idcompetidor)
+INSERT INTO competidor VALUES ('AAAAA'); -- atleta
+INSERT INTO competidor VALUES ('AAAAB'); -- atleta
+INSERT INTO competidor VALUES ('AAAAC'); -- atleta
+INSERT INTO competidor VALUES ('AAAAD'); -- atleta
+INSERT INTO competidor VALUES ('AAAAE'); -- atleta
+INSERT INTO competidor VALUES ('AAAAF'); -- atleta
+INSERT INTO competidor VALUES ('AAAAG'); -- atleta
+INSERT INTO competidor VALUES ('AAAAH'); -- atleta
+INSERT INTO competidor VALUES ('AAAAI'); -- atleta
+INSERT INTO competidor VALUES ('EAAAA'); -- equipe
+INSERT INTO competidor VALUES ('EAAAB'); -- equipe
+INSERT INTO competidor VALUES ('EAAAC'); -- equipe
+INSERT INTO competidor VALUES ('EAAAD'); -- equipe
+
+-- equipe (idequ, nomeequ, idcompetidor)
+INSERT INTO equipe VALUES ('EQ001', 'Equipe Azul', 'EAAAA');
+INSERT INTO equipe VALUES ('EQ002', 'Equipe Vermelha', 'EAAAB');
+INSERT INTO equipe VALUES ('EQ003', 'Equipe Verde', 'EAAAC');
+INSERT INTO equipe VALUES ('EQ004', 'Equipe Amarela', 'EAAAD');
+
+-- pateve (idemp, valorpat)
+INSERT INTO pateve VALUES ('E0001', 15523.45);
+INSERT INTO pateve VALUES ('E0003', 32348.98);
+
+-- patcom (idemp)
+INSERT INTO patcom VALUES ('E0002');
+INSERT INTO patcom VALUES ('E0004');
+
+-- atleta (idpes, idcompetidor)
+INSERT INTO atleta VALUES ('P0001', 'AAAAA');
+INSERT INTO atleta VALUES ('P0002', 'AAAAB');
+INSERT INTO atleta VALUES ('P0003', 'AAAAC');
+INSERT INTO atleta VALUES ('P0008', 'AAAAD');
+INSERT INTO atleta VALUES ('P0009', 'AAAAE');
+INSERT INTO atleta VALUES ('P0010', 'AAAAF');
+INSERT INTO atleta VALUES ('P0012', 'AAAAG');
+INSERT INTO atleta VALUES ('P0011', 'AAAAH');
+INSERT INTO atleta VALUES ('P0013', 'AAAAI');
+
+
+-- funcionario (idpes)
+INSERT INTO funcionario VALUES ('P0004');
+INSERT INTO funcionario VALUES ('P0005');
+INSERT INTO funcionario VALUES ('P0006');
+INSERT INTO funcionario VALUES ('P0007');
+
+-- arbitro (idpes, idcoo)
+INSERT INTO arbitro VALUES ('P0004', 'P0004');
+INSERT INTO arbitro VALUES ('P0005', 'P0004');
+INSERT INTO arbitro VALUES ('P0006', 'P0004');
+INSERT INTO arbitro VALUES ('P0007', 'P0004');
+
+-- locfun (idloc, idpes)
+INSERT INTO locfun VALUES ('L0001', 'P0005');
+INSERT INTO locfun VALUES ('L0002', 'P0006');
+
+-- inscricao (idcat, idcompetidor)
+INSERT INTO inscricao VALUES ('C0001', 'AAAAA');
+INSERT INTO inscricao VALUES ('C0003', 'AAAAB');
+INSERT INTO inscricao VALUES ('C0002', 'AAAAC');
+
+-- patrocinio (idemp, idcompetidor)
+INSERT INTO patrocinio VALUES ('E0002', 'AAAAA');
+INSERT INTO patrocinio VALUES ('E0004', 'AAAAB');
+INSERT INTO patrocinio VALUES ('E0004', 'EAAAC');
+INSERT INTO patrocinio VALUES ('E0002', 'EAAAD');
+INSERT INTO patrocinio VALUES ('E0002', 'AAAAE');
+
+-- catloc(idcat, idloc)
+INSERT INTO catloc VALUES ('C0001', 'L0002');
+INSERT INTO catloc VALUES ('C0002', 'L0002');
+INSERT INTO catloc VALUES ('C0003', 'L0001');
+INSERT INTO catloc VALUES ('C0004', 'L0001');
+INSERT INTO catloc VALUES ('C0005', 'L0003');
+INSERT INTO catloc VALUES ('C0006', 'L0003');
+
+-- participacao (idcom, idcompetidor, escore, unidade)
+INSERT INTO participacao VALUES ('CC001', 'AAAAA', '4', 'gols');
+INSERT INTO participacao VALUES ('CC002', 'AAAAB', '2', 'gols');
+INSERT INTO participacao VALUES ('CC003', 'AAAAC', '5', 'pontos');
+INSERT INTO participacao VALUES ('CC004', 'AAAAD', '7', 'pontos');
+
+-- catarb (idcat, idpes)
+INSERT INTO catarb VALUES ('C0001', 'P0004');
+INSERT INTO catarb VALUES ('C0002', 'P0004');
+INSERT INTO catarb VALUES ('C0003', 'P0005');
+INSERT INTO catarb VALUES ('C0004', 'P0005');
+INSERT INTO catarb VALUES ('C0005', 'P0006');
+INSERT INTO catarb VALUES ('C0005', 'P0007');
+
+-- atlequi (idpes, idequ)
+INSERT INTO atlequi VALUES ('P0001', 'EQ001');
+INSERT INTO atlequi VALUES ('P0002', 'EQ002');
+INSERT INTO atlequi VALUES ('P0003', 'EQ003');
+INSERT INTO atlequi VALUES ('P0008', 'EQ004');
+
+END TRANSACTION;

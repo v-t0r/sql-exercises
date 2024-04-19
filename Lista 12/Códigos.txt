@@ -1,0 +1,45 @@
+para deletar:
+DELETE FROM atlequ WHERE idpes = 50 OR idpes = 51;
+DELETE FROM atleta WHERE idpes = 50 OR idpes = 51;
+DELETE FROM pessoa WHERE idpes = 50 OR idpes = 51;
+
+para criar a função:
+CREATE OR REPLACE FUNCTION fnewatlequ () RETURNS TRIGGER AS $$
+DECLARE
+mycomand TEXT;
+mytresequ tresequ%ROWTYPE;
+myqtdeatletas tresequ.qtdeatletas%TYPE;
+mymaisnovo tresequ.maisnovo%TYPE;
+mymaisvelho tresequ.maisvelho%TYPE;
+BEGIN
+SELECT * FROM tresequ INTO mytresequ WHERE idequ = NEW.idequ;
+
+myqtdeatletas = mytresequ.qtdeatletas + 1;
+
+IF (SELECT datanas FROM pessoa WHERE idpes = NEW.idpes) > mytresequ.maisnovo THEN
+	mymaisnovo = (SELECT datanas FROM pessoa WHERE idpes = NEW.idpes);
+ELSE
+	mymaisnovo = mytresequ.maisnovo;
+END IF;
+
+IF (SELECT datanas FROM pessoa WHERE idpes = NEW.idpes) < mytresequ.maisvelho THEN
+	mymaisvelho = (SELECT datanas FROM pessoa WHERE idpes = NEW.idpes);
+ELSE
+	mymaisvelho = mytresequ.maisvelho;
+END IF;
+
+mycomand := 'UPDATE ' || 'tresequ ' || 'SET qtdeatletas = ' || quote_literal(myqtdeatletas) || ', maisvelho = ' || quote_literal(mymaisvelho) || ', maisnovo = ' || quote_literal(mymaisnovo) || '' || 'WHERE idequ = ' || quote_literal(NEW.idequ);
+EXECUTE mycomand;
+RETURN NEW;
+END
+$$
+LANGUAGE plpgsql;
+
+para criar o gatilho:
+CREATE TRIGGER tnewatlequ BEFORE INSERT ON atlequ FOR EACH ROW EXECUTE PROCEDURE fnewatlequ();
+
+SELECT * FROM tresequ;
+
+CREATE TABLE see.tresequ AS SELECT idequ, nomeequ, COUNT(*) AS qtdeatletas, MAX(datanas) AS maisnovo, MIN(datanas) AS maisvelho 
+FROM pessoa NATURAL JOIN atlequ NATURAL JOIN equipe 
+GROUP BY idequ, nomeequ;
